@@ -1,8 +1,16 @@
-# Disclaimer
+# `user_impersonate2`
 
-We are no longer maintaining this project going forward. Feel free to fork and make your own!
+[![Install gem](https://badge.fury.io/rb/user_impersonate2.png)](https://rubygems.org/gems/user_impersonate2)
+[![Build status](https://travis-ci.org/rcook/user_impersonate2.png)](https://travis-ci.org/rcook/user_impersonate2)
+[![Coverage status](https://coveralls.io/repos/rcook/user_impersonate2/badge.png?branch=master)](https://coveralls.io/r/rcook/user_impersonate2)
 
-# User Impersonate
+# Note
+
+This is a fork of Engine Yard's no-longer-maintained
+[User Impersonate](https://github.com/engineyard/user_impersonate) gem. It supports Rails 3.2.x and
+later as well as Rails 4.
+
+# Overview
 
 Allow staff users to impersonate your normal users: see what they see, only do what they can do.
 
@@ -12,13 +20,13 @@ This Rails engine currently supports the following Rails authentication systems:
 
 * [Devise](https://github.com/plataformatec/devise)
 
-## Example usage
+# Example usage
 
 When you are impersonating a user you see what they see, with a header section above:
 
 <img src="https://img.skitch.com/20120919-c8382rgdcub7gsh2p82k8reng3.png" alt="Impersonating a user" />
 
-## Installation
+# Installation
 
 Add the gem to your Rails application's Gemfile and run `bundle`:
 
@@ -73,14 +81,14 @@ end
 
 You can now go to [http://localhost:3000/impersonate](http://localhost:3000/impersonate) to see the list of users, except your own user account. If you impersonate one you will see the magic!
 
-## Integration
+# Integration
 
 To support this Rails engine, you need to add some things.
 
 * `current_user` helper within controllers & helpers
 * `current_user.staff?` - your `User` model needs a `staff?` to identify if the current user is allowed to impersonate other users; if missing, no user can access impersonation system
 
-### User#staff?
+## User#staff?
 
 One way to add this helper is to add a column to your User model:
 
@@ -89,9 +97,9 @@ rails g migration add_staff_flag_to_users staff:boolean
 rake db:migrate db:test:prepare
 ```
 
-## Customization
+# Customization
 
-### Header
+## Header
 
 
 You can override the bright red header by creating a `app/views/user_impersonate/_header.html.erb` file (or whatever template system you like).
@@ -131,7 +139,7 @@ The `app/views/user_impersonate/_header.html.haml` HAML partial for this header 
         %button{:type => "submit"} Revert to admin
 ```
 
-### Redirects
+## Redirects
 
 By default, when you impersonate and when you stop impersonating a user you are redirected to the root url.
 
@@ -147,7 +155,7 @@ module UserImpersonate
 end
 ```
 
-### User model & lookup
+## User model & lookup
 
 By default, it assumes the User model is `User`, that you use `User.find(id)` to find a user, and `aUser.id` to get the related id value.
 
@@ -165,7 +173,7 @@ module UserImpersonate
 end
 ```
 
-### Spree specific stuff
+## Spree specific stuff
 
 Modify User and add current_user helper
 ``` ruby
@@ -211,3 +219,8 @@ Deface::Override.new(:virtual_path => "spree/layouts/spree_application",
                      :insert_before => "div.container",
                      :text => "<% if current_staff_user %><%= render 'user_impersonate/header' %><% end %>")
 ```
+
+# Licence
+
+`user_impersonate2` is released under the MIT licence.
+
