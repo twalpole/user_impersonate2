@@ -5,11 +5,11 @@ require "user_impersonate/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
-  s.name        = "user_impersonate"
+  s.name = 'user_impersonate2'
   s.version     = UserImpersonate::VERSION
-  s.authors     = ["Dr Nic Williams", "Many people at Engine Yard"]
-  s.email       = ["drnicwilliams@gmail.com"]
-  s.homepage    = "https://drnic.github.com/user-impersonate"
+  s.authors = ['Richard Cook', 'Dr Nic Williams', 'Many people at Engine Yard']
+  s.email = 'rcook@rcook.org'
+  s.homepage = 'https://github.com/rcook/user_impersonate2'
   s.summary     = "Allow staff users to pretend to be your customers"
   s.description = "Allow staff users to pretend to be your customers; to impersonate their account."
   s.license = 'MIT'

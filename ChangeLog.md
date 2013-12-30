@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.9. - Rename gem to user_impersonate2 and add Rails 4 support
+
+* Rails 4 support courtesy of https://github.com/jamesharker/user_impersonate
+
 ## 0.8. - Not specific to Devise
 
 * Can specify the sign in & authenticate methods to use
@@ -32,3 +36,4 @@
 * Impersonation mechanism works
 * No generators
 * No configurability
+
