@@ -16,3 +16,7 @@ gem "devise"
 
 # To use debugger
 # gem 'debugger'
+
+# For code coverage via https://coveralls.io/
+gem 'coveralls', :require => false
+
