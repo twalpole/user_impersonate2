@@ -12,6 +12,7 @@ Gem::Specification.new do |s|
   s.homepage    = "https://drnic.github.com/user-impersonate"
   s.summary     = "Allow staff users to pretend to be your customers"
   s.description = "Allow staff users to pretend to be your customers; to impersonate their account."
+  s.license = 'MIT'
 
   s.files = Dir["{app,config,db,lib}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["test/**/*"]
@@ -26,3 +27,4 @@ Gem::Specification.new do |s|
   s.add_development_dependency "guard-cucumber"
   s.add_development_dependency "launchy"
 end
+
