@@ -31,8 +31,13 @@ When you are impersonating a user you see what they see, with a header section a
 Add the gem to your Rails application's Gemfile and run `bundle`:
 
 ``` ruby
-gem 'user_impersonate2'
+gem 'user_impersonate2', :require => 'user_impersonate'
 ```
+
+Note that `:require => 'user_impersonate'` is required as this gem currently
+maintains the same internal directory structure as the original
+[User Impersonate](https://github.com/engineyard/user_impersonate) gem. This may
+change in future versions.
 
 Run the (sort of optional) generator:
 
