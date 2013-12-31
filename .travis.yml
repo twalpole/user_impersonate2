@@ -4,6 +4,6 @@ rvm:
   - 2.0.0
 script:
   - bundle exec rake db:reset
-  - bundle exec rake test
+  - bundle exec rake
   - bundle exec gem build user_impersonate2.gemspec
 

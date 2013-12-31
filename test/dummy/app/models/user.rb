@@ -9,4 +9,9 @@ class User < ActiveRecord::Base
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me
   attr_accessible :staff
   # attr_accessible :title, :body
+
+  def to_s
+    name
+  end
 end
+

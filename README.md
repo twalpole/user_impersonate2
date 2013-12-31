@@ -237,11 +237,11 @@ is that the Travis-CI build must pass. Here are the Travis-CI test steps in deta
 bundle install
 ```
 
-## Reset database and run tests
+## Reset database and run Minitest and Cucumber tests
 
 ```bash
 bundle exec rake db:reset
-bundle exec rake test
+bundle exec rake
 ```
 
 ## Build gem
