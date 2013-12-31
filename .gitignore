@@ -1,4 +1,6 @@
 *.gem
+*.sqlite3-journal
+*.swp
 .bundle/
 coverage/
 log/*.log
