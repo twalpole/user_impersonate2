@@ -30,7 +30,7 @@ When you are impersonating a user you see what they see, with a header section a
 
 Add the gem to your Rails application's Gemfile and run `bundle`:
 
-``` ruby
+```ruby
 gem 'user_impersonate2', :require => 'user_impersonate'
 ```
 
@@ -41,27 +41,27 @@ change in future versions.
 
 Run the (sort of optional) generator:
 
-```
+```bash
 bundle
 rails g user_impersonate
 ```
 
 This adds the following line within your `config/routes.rb`:
 
-``` ruby
+```ruby
 mount UserImpersonate::Engine => "/impersonate", as: "impersonate_engine"
 ```
 
 Include in your layout files support for `flash[:error]` and `flash[:notice]`, such as:
 
-``` erb
+```erb
 <p class="notice"><%= flash[:notice] %></p>
 <p class="alert"><%= flash[:error] %></p>
 ```
 
 Next, add the impersonation header to your layouts:
 
-``` erb
+```erb
 <% if current_staff_user %>
   <%= render 'user_impersonate/header' %>
 <% end %>
@@ -71,7 +71,7 @@ Next, add staff concept to your User model.
 
 To test the engine out, make all users staff!
 
-``` ruby
+```ruby
 # app/models/user.rb
 
 def staff?
@@ -97,7 +97,7 @@ To support this Rails engine, you need to add some things.
 
 One way to add this helper is to add a column to your User model:
 
-```
+```bash
 rails g migration add_staff_flag_to_users staff:boolean
 rake db:migrate db:test:prepare
 ```
@@ -115,7 +115,7 @@ For example, the Engine Yard Cloud uses a header that looks like:
 
 The `app/views/user_impersonate/_header.html.haml` HAML partial for this header would be:
 
-``` haml
+```haml
 %div#impersonating
   .impersonate-controls.page
     .impersonate-info.grid_12
@@ -150,7 +150,7 @@ By default, when you impersonate and when you stop impersonating a user you are 
 
 Configure alternate paths in `config/initializers/user_impersonate.rb`, which is created by the generator above.
 
-``` ruby
+```ruby
 # config/initializers/user_impersonate.rb
 module UserImpersonate
   class Engine < Rails::Engine
@@ -166,7 +166,7 @@ By default, it assumes the User model is `User`, that you use `User.find(id)` to
 
 You can fix this default behavior in `config/initializers/user_impersonate.rb`, which is created by the generator above.
 
-``` ruby
+```ruby
 # config/initializers/user_impersonate.rb
 module UserImpersonate
   class Engine < Rails::Engine
@@ -181,7 +181,7 @@ end
 ## Spree specific stuff
 
 Modify User and add current_user helper
-``` ruby
+```ruby
 Spree::User.class_eval do
   def staff?
     has_spree_role?('admin')
@@ -201,7 +201,7 @@ end
 ```
 
 Initializer
-``` ruby
+```ruby
 # config/initializers/user_impersonate.rb
 module UserImpersonate
   class Engine < Rails::Engine
@@ -218,7 +218,7 @@ end
 ```
 
 Deface to add header
-``` ruby
+```ruby
 Deface::Override.new(:virtual_path => "spree/layouts/spree_application",
                      :name => "impersonate_header", 
                      :insert_before => "div.container",
