@@ -227,26 +227,22 @@ Deface::Override.new(:virtual_path => "spree/layouts/spree_application",
 
 # Contributing
 
-See `.travis.yml` for details of commands that are run as part of the Travis-CI
-continuous integration build of this project. The minimum bar for any push requests
-is that the Travis-CI build must pass. Here are the Travis-CI test steps in detail:
+See [`.travis.yml`](https://github.com/rcook/user_impersonate2/blob/master/.travis.yml)
+for details of the commands that are run as part of the Travis-CI build of this project.
+The minimum bar for all push requests is that the Travis-CI build must pass. Please also
+consider adding new tests to cover any new functionality introduced into the project.
 
-## Ensure gem dependencies are installed
+To manually run the Travis-CI verification steps on your local machine, you can use the
+following sequence of commands:
 
 ```bash
+# Ensure gem dependencies are installed
 bundle install
-```
-
-## Reset database and run Minitest and Cucumber tests
-
-```bash
+# Reset database
 bundle exec rake db:reset
+# Run Minitest and Cucumber tests
 bundle exec rake
-```
-
-## Build gem
-
-```bash
+# Build the gem
 bundle exec gem build user_impersonate2.gemspec
 ```
 
