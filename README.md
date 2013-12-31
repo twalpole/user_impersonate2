@@ -225,6 +225,31 @@ Deface::Override.new(:virtual_path => "spree/layouts/spree_application",
                      :text => "<% if current_staff_user %><%= render 'user_impersonate/header' %><% end %>")
 ```
 
+# Contributing
+
+See `.travis.yml` for details of commands that are run as part of the Travis-CI
+continuous integration build of this project. The minimum bar for any push requests
+is that the Travis-CI build must pass. Here are the Travis-CI test steps in detail:
+
+## Ensure gem dependencies are installed
+
+```bash
+bundle install
+```
+
+## Reset database and run tests
+
+```bash
+bundle exec rake db:reset
+bundle exec rake test
+```
+
+## Build gem
+
+```bash
+bundle exec gem build user_impersonate2.gemspec
+```
+
 # Licence
 
 `user_impersonate2` is released under the MIT licence.
