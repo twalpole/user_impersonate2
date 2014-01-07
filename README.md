@@ -251,17 +251,17 @@ pass. Please also consider adding new tests to cover any new functionality
 introduced into the gem.
 
 To manually run the Travis-CI verification steps on your local machine, you can
-use the following sequence of commands:
+use the following sequence of commands for Rails 3.2.x:
 
 ```bash
 # Ensure gem dependencies are installed
-bundle install
+BUNDLE_GEMFILE=Gemfile.rails3 BUNDLE_bundle install
 # Reset database
-bundle exec rake db:reset
+BUNDLE_GEMFILE=Gemfile.rails3 bundle exec rake db:reset
 # Run Minitest and Cucumber tests
-bundle exec rake
+BUNDLE_GEMFILE=Gemfile.rails3 bundle exec rake
 # Build the gem
-bundle exec gem build user_impersonate2.gemspec
+BUNDLE_GEMFILE=Gemfile.rails3 bundle exec gem build user_impersonate2.gemspec
 ```
 
 ## Licence
