@@ -178,5 +178,6 @@ DEPENDENCIES
   guard-cucumber
   jquery-rails
   launchy
+  rails (~> 3.2.8)
   sqlite3
   user_impersonate2!
