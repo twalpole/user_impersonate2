@@ -1,5 +1,10 @@
 # Change Log
 
+## 0.9.1 - Remove unnecessary dependencies and add official support for Ruby 2.1.0
+
+* Remove dependency on jquery and jquery_ujs from application.js manifest
+* CI builds now test against Ruby 2.1.0 in addition to 1.9.3 and 2.0.0
+
 ## 0.9. - Rename gem to user_impersonate2 and add Rails 4 support
 
 * Rails 4 support courtesy of https://github.com/jamesharker/user_impersonate
