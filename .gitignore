@@ -5,8 +5,8 @@
 coverage/
 log/*.log
 pkg/
-test/dummy/db/*.sqlite3
-test/dummy/log/*.log
-test/dummy/tmp/
-test/dummy/.sass-cache
+test/dummy-rails*/db/*.sqlite3
+test/dummy-rails*/log/*.log
+test/dummy-rails*/tmp/
+test/dummy-rails*/.sass-cache
 
