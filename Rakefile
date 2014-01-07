@@ -12,6 +12,10 @@ rescue LoadError
   RDoc::Task = Rake::RDocTask
 end
 
+require File.expand_path('../test/test_utils', __FILE__)
+
+puts "Testing against Rails #{TestUtils.rails_version} with dummy application in #{TestUtils.dummy_app_dir}"
+
 RDoc::Task.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title    = 'UserImpersonate'
@@ -20,10 +24,8 @@ RDoc::Task.new(:rdoc) do |rdoc|
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
-APP_RAKEFILE = File.expand_path("../test/dummy/Rakefile", __FILE__)
+APP_RAKEFILE = File.expand_path("../test/#{TestUtils.dummy_app_dir}/Rakefile", __FILE__)
 load 'rails/tasks/engine.rake'
-
-
 
 Bundler::GemHelper.install_tasks
 
