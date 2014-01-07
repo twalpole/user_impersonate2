@@ -1,34 +1,37 @@
-# `user_impersonate2`
+## `user_impersonate2`
 
 [![Install gem](https://badge.fury.io/rb/user_impersonate2.png)](https://rubygems.org/gems/user_impersonate2)
 [![Build status](https://travis-ci.org/rcook/user_impersonate2.png)](https://travis-ci.org/rcook/user_impersonate2)
 [![Coverage status](https://coveralls.io/repos/rcook/user_impersonate2/badge.png?branch=master)](https://coveralls.io/r/rcook/user_impersonate2)
 
-# Note
+## Note
 
-This is a fork of Engine Yard's no-longer-maintained
-[User Impersonate](https://github.com/engineyard/user_impersonate) gem. It supports Rails 3.2.x and
-later as well as Rails 4.
+This is a fork of Engine Yard's no-longer-maintained [`user_impersonate`](https://github.com/engineyard/user_impersonate)
+gem. It supports Rails 3.2.x and Rails 4 and has been tested against Ruby 1.9.3,
+2.0.0 and 2.1.0.
 
-# Overview
+## Overview
 
-Allow staff users to impersonate your normal users: see what they see, only do what they can do.
+`user_impersonate` allows staff users to impersonate normal users: to see what
+they see and to only do what they can do.
 
-This concept and code was extracted from [Engine Yard Cloud](http://www.engineyard.com/products/cloud), which we use when we want to help support a customer remotely.
+This concept and code was extracted from [Engine Yard Cloud](http://www.engineyard.com/products/cloud),
+which Engine Yard uses to support customer remotely.
 
 This Rails engine currently supports the following Rails authentication systems:
 
 * [Devise](https://github.com/plataformatec/devise)
 
-# Example usage
+## Example usage
 
-When you are impersonating a user you see what they see, with a header section above:
+When you are impersonating a user you see what they see with a header section
+above:
 
-<img src="https://img.skitch.com/20120919-c8382rgdcub7gsh2p82k8reng3.png" alt="Impersonating a user" />
+![](https://img.skitch.com/20120919-c8382rgdcub7gsh2p82k8reng3.png)
 
-# Installation
+## Installation
 
-Add the gem to your Rails application's Gemfile and run `bundle`:
+Add the gem to your Rails application's `Gemfile` and run `bundle`:
 
 ```ruby
 gem 'user_impersonate2', :require => 'user_impersonate'
@@ -36,23 +39,25 @@ gem 'user_impersonate2', :require => 'user_impersonate'
 
 Note that `:require => 'user_impersonate'` is required as this gem currently
 maintains the same internal directory structure as the original
-[User Impersonate](https://github.com/engineyard/user_impersonate) gem. This may
-change in future versions.
+[`user_impersonate`](https://github.com/engineyard/user_impersonate) gem. This
+may change in future versions but is retained for compatibility for the time
+being.
 
 Run the (sort of optional) generator:
 
 ```bash
 bundle
-rails g user_impersonate
+rails generate user_impersonate
 ```
 
-This adds the following line within your `config/routes.rb`:
+This adds the following line to your `config/routes.rb` file:
 
 ```ruby
 mount UserImpersonate::Engine => "/impersonate", as: "impersonate_engine"
 ```
 
-Include in your layout files support for `flash[:error]` and `flash[:notice]`, such as:
+Make sure that your layout files include the standard flashes since these are
+used to communicate information and error messages to the user:
 
 ```erb
 <p class="notice"><%= flash[:notice] %></p>
@@ -67,7 +72,7 @@ Next, add the impersonation header to your layouts:
 <% end %>
 ```
 
-Next, add staff concept to your User model.
+Next, add the "staff" concept to your `User` model.
 
 To test the engine out, make all users staff!
 
@@ -78,42 +83,47 @@ def staff?
   true
 end
 
-# String to represent a user (email, name, etc)
+# String to represent a user (e-mail, name, etc.)
 def to_s
   email
 end
 ```
 
-You can now go to [http://localhost:3000/impersonate](http://localhost:3000/impersonate) to see the list of users, except your own user account. If you impersonate one you will see the magic!
+You can now go to [http://localhost:3000/impersonate](http://localhost:3000/impersonate)
+to see the list of users, except your own user account. Click on the
+"Impersonate" link to impersonate that user and to see the magic!
 
-# Integration
+## Integration
 
 To support this Rails engine, you need to add some things.
 
-* `current_user` helper within controllers & helpers
-* `current_user.staff?` - your `User` model needs a `staff?` to identify if the current user is allowed to impersonate other users; if missing, no user can access impersonation system
+* `current_user` helper within controllers and helpers
+* `current_user.staff?` - your `User` model needs a `staff?` method to identify
+if the current user is allowed to impersonate other users; if this method is
+missing, no user can access impersonation system
 
-## User#staff?
+### `User#staff?`
 
-One way to add this helper is to add a column to your User model:
+One way to add the `staff?` helper is to add a column to your `User` model:
 
 ```bash
-rails g migration add_staff_flag_to_users staff:boolean
+rails generate migration add_staff_to_users staff:boolean
 rake db:migrate db:test:prepare
 ```
 
-# Customization
+## Customization
 
-## Header
+### Header
 
-
-You can override the bright red header by creating a `app/views/user_impersonate/_header.html.erb` file (or whatever template system you like).
+You can override the bright red header by creating a `app/views/user_impersonate/_header.html.erb`
+file (or whatever template system you like).
 
 For example, the Engine Yard Cloud uses a header that looks like:
 
 ![](https://img.skitch.com/20120915-mk8mnpdsu5nuym3bxs678qf1a8.png)
 
-The `app/views/user_impersonate/_header.html.haml` HAML partial for this header would be:
+The `app/views/user_impersonate/_header.html.haml` HAML partial for this header
+would be:
 
 ```haml
 %div#impersonating
@@ -144,11 +154,13 @@ The `app/views/user_impersonate/_header.html.haml` HAML partial for this header 
         %button{:type => "submit"} Revert to admin
 ```
 
-## Redirects
+### Redirects
 
-By default, when you impersonate and when you stop impersonating a user you are redirected to the root url.
+By default, when you impersonate and when you stop impersonating a user you are
+redirected to the root URL.
 
-Configure alternate paths in `config/initializers/user_impersonate.rb`, which is created by the generator above.
+Alternative paths can be configured in the initializer `config/initializers/user_impersonate.rb`
+created by the `user_impersonate` generator described above.
 
 ```ruby
 # config/initializers/user_impersonate.rb
@@ -160,11 +172,13 @@ module UserImpersonate
 end
 ```
 
-## User model & lookup
+### User model and lookup
 
-By default, it assumes the User model is `User`, that you use `User.find(id)` to find a user, and `aUser.id` to get the related id value.
+By default, `user_impersonate2` assumes the user model is named `User`, that you
+use `User.find(id)` to find a user given its ID, and `aUser.id` to get the
+related ID value.
 
-You can fix this default behavior in `config/initializers/user_impersonate.rb`, which is created by the generator above.
+You can change this default behaviour in the initializer `config/initializers/user_impersonate.rb`.
 
 ```ruby
 # config/initializers/user_impersonate.rb
@@ -178,9 +192,10 @@ module UserImpersonate
 end
 ```
 
-## Spree specific stuff
+### Spree-specific stuff
 
-Modify User and add current_user helper
+Modify `User` and add a `current_user` helper:
+
 ```ruby
 Spree::User.class_eval do
   def staff?
@@ -200,7 +215,8 @@ ApplicationController.class_eval do
 end
 ```
 
-Initializer
+Use the following initializer:
+
 ```ruby
 # config/initializers/user_impersonate.rb
 module UserImpersonate
@@ -217,7 +233,8 @@ module UserImpersonate
 end
 ```
 
-Deface to add header
+Use deface to add the header:
+
 ```ruby
 Deface::Override.new(:virtual_path => "spree/layouts/spree_application",
                      :name => "impersonate_header", 
@@ -225,15 +242,16 @@ Deface::Override.new(:virtual_path => "spree/layouts/spree_application",
                      :text => "<% if current_staff_user %><%= render 'user_impersonate/header' %><% end %>")
 ```
 
-# Contributing
+## Contributing
 
 See [`.travis.yml`](https://github.com/rcook/user_impersonate2/blob/master/.travis.yml)
-for details of the commands that are run as part of the Travis-CI build of this project.
-The minimum bar for all push requests is that the Travis-CI build must pass. Please also
-consider adding new tests to cover any new functionality introduced into the project.
+for details of the commands that are run as part of the Travis-CI build of this
+project. The minimum bar for all push requests is that the Travis-CI build must
+pass. Please also consider adding new tests to cover any new functionality
+introduced into the gem.
 
-To manually run the Travis-CI verification steps on your local machine, you can use the
-following sequence of commands:
+To manually run the Travis-CI verification steps on your local machine, you can
+use the following sequence of commands:
 
 ```bash
 # Ensure gem dependencies are installed
@@ -246,7 +264,7 @@ bundle exec rake
 bundle exec gem build user_impersonate2.gemspec
 ```
 
-# Licence
+## Licence
 
 `user_impersonate2` is released under the MIT licence.
 
