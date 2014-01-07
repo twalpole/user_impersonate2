@@ -264,6 +264,19 @@ BUNDLE_GEMFILE=Gemfile.rails3 bundle exec rake
 BUNDLE_GEMFILE=Gemfile.rails3 bundle exec gem build user_impersonate2.gemspec
 ```
 
+To test against Rails 4.0.x, use:
+
+```bash
+# Ensure gem dependencies are installed
+BUNDLE_GEMFILE=Gemfile.rails4 BUNDLE_bundle install
+# Reset database
+BUNDLE_GEMFILE=Gemfile.rails4 bundle exec rake db:reset
+# Run Minitest and Cucumber tests
+BUNDLE_GEMFILE=Gemfile.rails4 bundle exec rake
+# Build the gem
+BUNDLE_GEMFILE=Gemfile.rails4 bundle exec gem build user_impersonate2.gemspec
+```
+
 ## Licence
 
 `user_impersonate2` is released under the MIT licence.
