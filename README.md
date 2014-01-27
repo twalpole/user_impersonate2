@@ -12,7 +12,7 @@ gem. It supports Rails 3.2.x and Rails 4 and has been tested against Ruby 1.9.3,
 
 ## Overview
 
-`user_impersonate` allows staff users to impersonate normal users: to see what
+`user_impersonate2` allows staff users to impersonate normal users: to see what
 they see and to only do what they can do.
 
 This concept and code was extracted from [Engine Yard Cloud](http://www.engineyard.com/products/cloud),
@@ -21,6 +21,10 @@ which Engine Yard uses to support customer remotely.
 This Rails engine currently supports the following Rails authentication systems:
 
 * [Devise](https://github.com/plataformatec/devise)
+
+## Links
+
+* [Wiki](https://github.com/rcook/user_impersonate2/wiki) (includes tutorials etc.)
 
 ## Example usage
 
