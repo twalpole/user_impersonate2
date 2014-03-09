@@ -2,26 +2,36 @@
 SCRIPTPATH=$(readlink -f $0)
 SCRIPTDIR=$(dirname $SCRIPTPATH)
 SCRIPTNAME=$(basename $SCRIPTPATH)
+APPDIR=$(dirname $SCRIPTDIR)
 
 show_usage() {
   echo -e 'Usage:'
-  echo -e "  $SCRIPTNAME [ -g <gemfile> | -h ]\n"
+  echo -e "  $SCRIPTNAME [ -g <gemfile> | -n | -h ] <rake-args>\n"
 }
 
 show_help() {
   echo -e '\nRuns test suite using specified gemfile\n'
   show_usage
   echo '  -g <gemfile>    Specifies gemfile'
-  echo -e '  -h              Displays this help\n'
+  echo -e '  -n              Do not run ''install'' step'
+  echo -e '  -h              Displays this help'
+  echo -e '  <rake-args>     Optional arguments to pass to rake'
+}
+
+run_bundler() {
+  (cd $APPDIR && BUNDLE_GEMFILE=$GEMFILE bundle $@)
 }
 
 GEMFILE=
-while getopts g:h OPT; do
+NOINSTALL=0
+while getopts g:nh OPT; do
   case $OPT in
     g) GEMFILE=$OPTARG;;
+    n) NOINSTALL=1;;
     h) show_help; exit 0;;
   esac
 done
+shift $((OPTIND - 1))
 
 if [ "$GEMFILE" = '' ]; then
   echo -e '<gemfile> must be specified with -g\n'
@@ -31,11 +41,16 @@ fi
 GEMFILE=$(readlink -f $GEMFILE)
 
 # Ensure gem dependencies are installed
-BUNDLE_GEMFILE=$GEMFILE bundle install
+if [ $NOINSTALL -eq 0 ]; then
+  run_bundler install
+fi
+
 # Reset database
-BUNDLE_GEMFILE=$GEMFILE bundle exec rake db:reset
-# Run Minitest and Cucumber tests
-BUNDLE_GEMFILE=$GEMFILE bundle exec rake
+run_bundler exec rake db:reset
+
+# Run Minitest and Cucumber tests passing any additional arguments
+run_bundler exec rake $@
+
 # Build the gem
-BUNDLE_GEMFILE=$GEMFILE bundle exec gem build user_impersonate2.gemspec
+run_bundler exec gem build user_impersonate2.gemspec
 

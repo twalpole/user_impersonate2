@@ -7,7 +7,5 @@ gemfile:
   - Gemfile.rails3
   - Gemfile.rails4
 script:
-  - bundle exec rake db:reset
-  - bundle exec rake
-  - bundle exec gem build user_impersonate2.gemspec
+  - script/test -g $BUNDLE_GEMFILE -n
 
