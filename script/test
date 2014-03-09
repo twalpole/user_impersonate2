@@ -1,0 +1,41 @@
+#!/bin/bash
+SCRIPTPATH=$(readlink -f $0)
+SCRIPTDIR=$(dirname $SCRIPTPATH)
+SCRIPTNAME=$(basename $SCRIPTPATH)
+
+show_usage() {
+  echo -e 'Usage:'
+  echo -e "  $SCRIPTNAME [ -g <gemfile> | -h ]\n"
+}
+
+show_help() {
+  echo -e '\nRuns test suite using specified gemfile\n'
+  show_usage
+  echo '  -g <gemfile>    Specifies gemfile'
+  echo -e '  -h              Displays this help\n'
+}
+
+GEMFILE=
+while getopts g:h OPT; do
+  case $OPT in
+    g) GEMFILE=$OPTARG;;
+    h) show_help; exit 0;;
+  esac
+done
+
+if [ "$GEMFILE" = '' ]; then
+  echo -e '<gemfile> must be specified with -g\n'
+  show_usage
+  exit 1
+fi
+GEMFILE=$(readlink -f $GEMFILE)
+
+# Ensure gem dependencies are installed
+BUNDLE_GEMFILE=$GEMFILE bundle install
+# Reset database
+BUNDLE_GEMFILE=$GEMFILE bundle exec rake db:reset
+# Run Minitest and Cucumber tests
+BUNDLE_GEMFILE=$GEMFILE bundle exec rake
+# Build the gem
+BUNDLE_GEMFILE=$GEMFILE bundle exec gem build user_impersonate2.gemspec
+

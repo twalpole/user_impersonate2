@@ -251,34 +251,20 @@ Deface::Override.new(:virtual_path => "spree/layouts/spree_application",
 See [`.travis.yml`](https://github.com/rcook/user_impersonate2/blob/master/.travis.yml)
 for details of the commands that are run as part of the Travis-CI build of this
 project. The minimum bar for all push requests is that the Travis-CI build must
-pass. Please also consider adding new tests to cover any new functionality
-introduced into the gem.
+pass. Contributors are also strongly encouraged to add new tests to cover any
+new functionality introduced into the gem.
 
 To manually run the Travis-CI verification steps on your local machine, you can
 use the following sequence of commands for Rails 3.2.x:
 
 ```bash
-# Ensure gem dependencies are installed
-BUNDLE_GEMFILE=Gemfile.rails3 BUNDLE_bundle install
-# Reset database
-BUNDLE_GEMFILE=Gemfile.rails3 bundle exec rake db:reset
-# Run Minitest and Cucumber tests
-BUNDLE_GEMFILE=Gemfile.rails3 bundle exec rake
-# Build the gem
-BUNDLE_GEMFILE=Gemfile.rails3 bundle exec gem build user_impersonate2.gemspec
+script/test -g Gemfile.rails3
 ```
 
 To test against Rails 4.0.x, use:
 
 ```bash
-# Ensure gem dependencies are installed
-BUNDLE_GEMFILE=Gemfile.rails4 BUNDLE_bundle install
-# Reset database
-BUNDLE_GEMFILE=Gemfile.rails4 bundle exec rake db:reset
-# Run Minitest and Cucumber tests
-BUNDLE_GEMFILE=Gemfile.rails4 bundle exec rake
-# Build the gem
-BUNDLE_GEMFILE=Gemfile.rails4 bundle exec gem build user_impersonate2.gemspec
+script/test -g Gemfile.rails4
 ```
 
 ## Licence
