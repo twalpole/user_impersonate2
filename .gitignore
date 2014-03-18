@@ -1,6 +1,7 @@
 *.gem
 *.sqlite3-journal
 *.swp
+.ruby-version
 .bundle/
 coverage/
 log/*.log
