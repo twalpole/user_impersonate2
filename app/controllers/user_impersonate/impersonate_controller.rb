@@ -2,7 +2,7 @@ require_dependency "user_impersonate/application_controller"
 
 module UserImpersonate
   class ImpersonateController < ApplicationController
-    before_filter :authenticate_the_user
+    before_filter :authenticate_the_user, except: ["destroy"]
     before_filter :current_user_must_be_staff!, except: ["destroy"]
 
     # Display list of all users, except current (staff) user
