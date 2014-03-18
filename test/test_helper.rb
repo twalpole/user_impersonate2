@@ -21,3 +21,13 @@ if ActiveSupport::TestCase.method_defined?(:fixture_path=)
   ActiveSupport::TestCase.fixture_path = File.expand_path('../fixtures', __FILE__)
 end
 
+class ActionController::TestCase
+  include Devise::TestHelpers
+
+  protected
+
+  def set_up_devise
+    @request.env['devise.mapping'] = Devise.mappings[:user]
+  end
+end
+
