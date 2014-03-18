@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.9.2 - Bug fix release
+
+* Issue #1: "Don't authenticate the user when trying to revert"
+
 ## 0.9.1 - Remove unnecessary dependencies and add official support for Ruby 2.1.0
 
 * Remove dependency on jquery and jquery_ujs from application.js manifest
