@@ -24,7 +24,8 @@ This Rails engine currently supports the following Rails authentication systems:
 
 ## Links
 
-* [Wiki](https://github.com/rcook/user_impersonate2/wiki) (includes tutorials etc.)
+* [Wiki](https://github.com/rcook/user_impersonate2/wiki) (includes tutorials
+etc.)
 
 ## Example usage
 
@@ -254,6 +255,31 @@ project. The minimum bar for all push requests is that the Travis-CI build must
 pass. Contributors are also strongly encouraged to add new tests to cover any
 new functionality introduced into the gem.
 
+### Installing gem dependencies via Bundler
+
+To install all gem dependencies for the active version of Ruby and for a given
+gemfile, you'll need to run the `bundle` command, e.g.
+
+```bash
+BUNDLE_GEMFILE=Gemfile.rails3 bundle
+```
+
+### Running tests against all configurations (requires [rbenv](https://github.com/sstephenson/rbenv))
+
+To run tests against all configurations specified in the Travis-CI configuration
+file, run `script/test-all`:
+
+```bash
+script/test-all
+```
+
+This scripts requires that you have rbenv installed along with all required
+versions of Ruby. Furthermore, you'll need to make sure that each version of
+Ruby installed via rbenv has all the required gems available to it installed
+using the `bundle` command.
+
+### Running tests against a single configuration
+
 To manually run the Travis-CI verification steps on your local machine, you can
 use the following sequence of commands for Rails 3.2.x:
 
@@ -266,6 +292,10 @@ To test against Rails 4.0.x, use:
 ```bash
 script/test -g Gemfile.rails4
 ```
+
+`script/test` takes care of running Bundler to update any gem dependencies,
+setting up the database, running all tests and then performing a test build of
+the gem in order to catch any syntax errors.
 
 ## Licence
 

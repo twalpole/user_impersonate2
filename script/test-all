@@ -1,0 +1,70 @@
+#!/bin/bash
+SCRIPTPATH=$(readlink -f $0)
+SCRIPTDIR=$(dirname $SCRIPTPATH)
+SCRIPTNAME=$(basename $SCRIPTPATH)
+APPDIR=$(dirname $SCRIPTDIR)
+REPODIR=$(git rev-parse --show-toplevel)
+
+# Generate test script to run test suite against all configurations specified in .travis.yml
+generate_test_script() {
+  local repo_dir=$1; shift
+
+  ruby <<-EOF
+require 'yaml'
+require 'pathname'
+
+def compatible_rbenv_version(rbenv_versions, ruby_version)
+  candidates = rbenv_versions.select { |x| x.start_with?(ruby_version) }
+  result = if candidates.size == 1
+    candidates.first
+  else
+    # find match with highest patch level
+    candidates.max_by { |x| integer(x[ruby_version.length + 2, x.length]) }
+  end
+end
+
+repo_dir = Pathname.new('$repo_dir')
+rbenv_versions = \`rbenv versions\`.chomp.split
+
+travis_config = YAML.load_file(repo_dir.join('.travis.yml'))
+excludes = if travis_config.include?('matrix') && travis_config['matrix'].include?('exclude')
+  travis_config['matrix']['exclude'].collect { |x| [x['rvm'], x['gemfile']] }
+else
+  []
+end
+
+puts 'test_all_configurations() {'
+missing_ruby_versions = []
+(travis_config['rvm'].product(travis_config['gemfile']) - excludes).each do |configuration|
+  ruby_version = configuration[0]
+  rbenv_version = compatible_rbenv_version(rbenv_versions, ruby_version)
+  gemfile = configuration[1]
+  if rbenv_version
+    puts "  (cd #{repo_dir} && echo -e '\\\\e[1;35mTest configuration: Ruby #{rbenv_version}, Gemfile: #{gemfile}\\\\e[0m' && RBENV_VERSION=#{rbenv_version} BUNDLE_GEMFILE=#{gemfile} $@) || return 1"
+  else
+    missing_ruby_versions << ruby_version
+  end
+end
+puts '}'
+puts 'test_all_configurations'
+puts 'if [ \$? -eq 0 ]; then'
+puts '  echo -e \'\e[1;32mAll commands ran successfully\e[0m\''
+puts 'else'
+puts '  echo -e \'\e[1;31mCommand was cancelled by the user or aborted due to one or more errors\e[0m\''
+puts 'fi'
+if missing_ruby_versions.size > 0
+  puts "echo -e '\\\\e[1;33mWarning: Could not find rbenv Rubies compatible with the following Ruby version(s): #{missing_ruby_versions.uniq.sort.join(', ')}\\\\e[0m'"
+end
+EOF
+}
+
+# Check that rbenv is installed
+type rbenv > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+  echo 'Script requires rbenv: please install from https://github.com/sstephenson/rbenv'
+  exit 1
+fi
+
+TESTSCRIPT=$(generate_test_script $REPODIR bundle exec rake)
+echo "$TESTSCRIPT" | source /dev/stdin
+
