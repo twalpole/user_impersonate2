@@ -11,5 +11,7 @@ module UserImpersonate
 
     config.authenticate_user_method = "authenticate_user!" # protect impersonation controller
     config.sign_in_user_method      = "sign_in"            # sign_in(user)
+
+    config.current_staff = "current_user" # if Active Admin user try "current_admin_user"
   end
 end
