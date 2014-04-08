@@ -8,6 +8,7 @@ ENV['RAILS_ENV'] = 'test'
 
 require File.expand_path("../#{TestUtils.dummy_app_dir}/config/environment.rb",  __FILE__)
 require 'rails/test_help'
+require 'mocha/setup'
 
 puts "Rails #{Rails.version} is loaded"
 

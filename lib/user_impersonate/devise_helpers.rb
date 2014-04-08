@@ -5,7 +5,7 @@ module UserImpersonate
       # current_user changes from a staff user to
       # +new_user+; current user stored in +session[:staff_user_id]+
       def impersonate(new_user)
-        session[:staff_user_id] = current_user.id # 
+        session[:staff_user_id] = current_staff.id # 
         sign_in new_user, bypass: true
       end
       

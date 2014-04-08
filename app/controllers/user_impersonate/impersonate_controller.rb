@@ -15,7 +15,7 @@ module UserImpersonate
       @users = user_class.order("updated_at DESC").
                     where(
                       id_column.not_in [
-                        current_user.send(user_id_column.to_sym) # e.g. current_user.id
+                        current_staff.send(user_id_column.to_sym) # e.g. current_user.id
                       ])
       if params[:search]
         @users = @users.where("#{user_name_column} like ?", "%#{params[:search]}%")
@@ -37,7 +37,7 @@ module UserImpersonate
         flash[:notice] = "You weren't impersonating anyone"
         redirect_on_revert and return
       end
-      user = current_user
+      user = current_staff
       revert_impersonate
       if user
         flash[:notice] = "No longer impersonating #{user}"
@@ -49,8 +49,15 @@ module UserImpersonate
     end
 
     private
+    def current_staff
+      @current_staff ||= begin
+        current_staff_method = config_or_default(:current_staff, "current_user").to_sym
+        send(current_staff_method) if respond_to? current_staff_method
+      end
+    end
+
     def current_user_must_be_staff!
-      unless user_is_staff?(current_user)
+      unless user_is_staff?(current_staff)
         flash[:error] = "You don't have access to this section."
         redirect_to :back
       end
@@ -58,14 +65,14 @@ module UserImpersonate
       redirect_to '/'
     end
 
-    # current_user changes from a staff user to
+    # current_staff changes from a staff user to
     # +new_user+; current user stored in +session[:staff_user_id]+
     def impersonate(new_user)
-      session[:staff_user_id] = current_user.id #
+      session[:staff_user_id] = current_staff.id #
       sign_in_user new_user
     end
 
-    # revert the +current_user+ back to the staff user
+    # revert the +current_staff+ back to the staff user
     # stored in +session[:staff_user_id]+
     def revert_impersonate
       return unless current_staff_user
@@ -91,8 +98,8 @@ module UserImpersonate
     # Similar to user.staff?
     # Using all the UserImpersonate config options
     def user_is_staff?(user)
-      current_user.respond_to?(user_is_staff_method.to_sym) &&
-        current_user.send(user_is_staff_method.to_sym)
+      current_staff.respond_to?(user_is_staff_method.to_sym) &&
+        current_staff.send(user_is_staff_method.to_sym)
     end
 
     def user_finder_method

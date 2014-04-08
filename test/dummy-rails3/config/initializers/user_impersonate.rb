@@ -14,5 +14,9 @@ module UserImpersonate
 
     config.authenticate_user_method = "authenticate_user!" # protect impersonation controller
     config.sign_in_user_method      = "sign_in"            # sign_in(user)
+
+    config.staff_class   = "User"   # if you have AdminUser instead
+    config.staff_finder  = "find"   # AdminUser.find
+    config.current_staff = "current_user" # if AdminUser model try "current_admin_user"
   end
 end
