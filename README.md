@@ -61,6 +61,8 @@ This adds the following line to your `config/routes.rb` file:
 mount UserImpersonate::Engine => "/impersonate", as: "impersonate_engine"
 ```
 
+It also generates a default initializer under `config/initializers/user_impersonate2.rb`.
+
 Make sure that your layout files include the standard flashes since these are
 used to communicate information and error messages to the user:
 
@@ -171,8 +173,8 @@ created by the `user_impersonate` generator described above.
 # config/initializers/user_impersonate.rb
 module UserImpersonate
   class Engine < Rails::Engine
-    config.redirect_on_impersonate = "/"
-    config.redirect_on_revert = "/impersonate"
+    config.redirect_on_impersonate = '/'
+    config.redirect_on_revert = '/impersonate'
   end
 end
 ```
@@ -180,8 +182,9 @@ end
 ### User model and lookup
 
 By default, `user_impersonate2` assumes the user model is named `User`, that you
-use `User.find(id)` to find a user given its ID, and `aUser.id` to get the
-related ID value.
+use `User.find(id)` to find a user given its ID, use `some_user.id` to get the
+related ID value and that your user model has a `staff?` attribute that returns
+`true` if the corresponding user is staff and `false` otherwise.
 
 You can change this default behaviour in the initializer `config/initializers/user_impersonate.rb`.
 
@@ -189,10 +192,35 @@ You can change this default behaviour in the initializer `config/initializers/us
 # config/initializers/user_impersonate.rb
 module UserImpersonate
   class Engine < Rails::Engine
-    config.user_class           = "User"
-    config.user_finder          = "find"   # User.find
-    config.user_id_column       = "id"     # Such that User.find(aUser.id) works
-    config.user_is_staff_method = "staff?" # current_user.staff?
+    config.user_class = 'User'
+    config.user_finder = 'find'
+    config.user_id_column = 'id'
+    config.user_is_staff_method = 'staff?'
+  end
+end
+```
+
+By default, `user_impersonate2` will use the same model for staff/admin users
+as that described above for regular users. Some configurations, using
+frameworks such as [Active Admin](http://activeadmin.info/), for example, use a
+different model for staff/admin users. `user_impersonate2`'s default behaviour
+can be overridden using the following initializer settings:
+
+```ruby
+# config/initializers/user_impersonate.rb
+module UserImpersonate
+  class Engine < Rails::Engine
+    # For Active Admin "AdminUser" model, use 'authenticate_admin_user!'
+    config.authenticate_user_method = 'authenticate_admin_user!'
+
+    # For Active Admin "AdminUser" model, use 'AdminUser'
+    config.staff_class = 'AdminUser'
+
+    # Staff user model lookup method
+    config.staff_finder = 'find'
+
+    # For Active Admin "AdminUser" model, use 'current_admin_user'
+    config.current_staff = 'current_admin_user'
   end
 end
 ```
@@ -226,14 +254,14 @@ Use the following initializer:
 # config/initializers/user_impersonate.rb
 module UserImpersonate
   class Engine < Rails::Engine
-    config.user_class           = "Spree::User"
-    config.user_finder          = "find"   # User.find
-    config.user_id_column       = "id"     # Such that User.find(aUser.id) works
-    config.user_is_staff_method = "staff?" # current_user.staff?
-    config.authenticate_user_method = "authenticate_spree_user!"
-    config.redirect_on_impersonate = "/"
-    config.redirect_on_revert = "/"
-    config.user_name_column = "users"
+    config.user_class = 'Spree::User'
+    config.user_finder = 'find'
+    config.user_id_column = 'id'
+    config.user_is_staff_method = 'staff?'
+    config.authenticate_user_method = 'authenticate_spree_user!'
+    config.redirect_on_impersonate = '/'
+    config.redirect_on_revert = '/'
+    config.user_name_column = 'users'
   end
 end
 ```

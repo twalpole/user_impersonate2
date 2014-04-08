@@ -1,22 +1,45 @@
 module UserImpersonate
   class Engine < Rails::Engine
-    config.user_class           = "User"
-    config.user_finder          = "find"   # User.find
-    config.user_id_column       = "id"     # Such that User.find(aUser.id) works
-    config.user_name_column     = "name"   # Such that User.where("#{user_name_column} like ?", "%#{params[:search]}%") works
-    config.user_is_staff_method = "staff?" # current_user.staff?
+    # Devise user model
+    config.user_class = 'User'
 
-    config.redirect_on_impersonate = "/"
+    # User model lookup method
+    config.user_finder = 'find'
 
-    # Do not use the default /impersonate URL since this
-    # does not render with impersonation header
-    config.redirect_on_revert = "/"
+    # User model primary key attribute
+    config.user_id_column = 'id'
 
-    config.authenticate_user_method = "authenticate_user!" # protect impersonation controller
-    config.sign_in_user_method      = "sign_in"            # sign_in(user)
+    # User model name attribute used for search
+    # Usage: User.where('#{user_name_column} like ?', '%#{params[:search]}%')
+    config.user_name_column = 'name'
 
-    config.staff_class   = "User"   # if you have AdminUser instead
-    config.staff_finder  = "find"   # AdminUser.find
-    config.current_staff = "current_user" # if AdminUser model try "current_admin_user"
+    # User model staff attribute
+    config.user_is_staff_method = 'staff?'
+
+    # Redirect to this path when entering impersonate mode
+    config.redirect_on_impersonate = '/'
+
+    # Redirect to this path when leaving impersonate mode
+    # In test mode, we use '/' since this includes an impersonation header
+    config.redirect_on_revert = '/'
+
+    # Devise filter method used to protect impersonation controller
+    # For Active Admin "AdminUser" model, change to 'authenticate_admin_user!'
+    config.authenticate_user_method = 'authenticate_user!'
+
+    # Devise method used to sign user in
+    config.sign_in_user_method = 'sign_in'
+
+    # Devise staff user class
+    # For Active Admin "AdminUser" model, change to 'AdminUser'
+    config.staff_class = 'User'
+
+    # Staff user model lookup method
+    config.staff_finder = 'find'
+
+    # Devise method storing current user
+    # For Active Admin "AdminUser" model, change to 'current_admin_user'
+    config.current_staff = 'current_user'
   end
 end
+
