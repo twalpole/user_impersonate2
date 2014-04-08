@@ -51,7 +51,7 @@ module UserImpersonate
     private
     def current_staff
       @current_staff ||= begin
-        current_staff_method = ( config_or_default :current_staff, "current_user" ).to_sym
+        current_staff_method = config_or_default(:current_staff, "current_user").to_sym
         send(current_staff_method) if respond_to? current_staff_method
       end
     end
