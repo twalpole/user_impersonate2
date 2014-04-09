@@ -1,5 +1,14 @@
 # Change Log
 
+## 0.10.0 - Enhancements to staff user configuration
+
+* Issue #2: "Support alternative model for staff users"
+
+    config.staff_class = 'User'
+    config.staff_finder = 'find'
+
+* Bump minor version due initializer changes
+
 ## 0.9.2 - Bug fix release
 
 * Issue #1: "Don't authenticate the user when trying to revert"
