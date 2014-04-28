@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.10.1 - Bug fix release
+
+* Issue #3: NoMethodError when calling config.staff_finder
+
 ## 0.10.0 - Enhancements to staff user configuration
 
 * Issue #2: "Support alternative model for staff users"
