@@ -61,5 +61,55 @@ class UserImpersonate::ImpersonateControllerTest < ActionController::TestCase
     assert_redirected_to 'http://test.host/'
     assert_equal admin_user, assigns(:current_staff)
   end
+
+  # https://github.com/rcook/user_impersonate2/issues/3
+  # If config.staff_finder is not specified, default of "find" should be used.
+  # Similarly, config.staff_class should default to "User".
+  test 'staff_finder not specified' do
+    options = UserImpersonate::Engine.config.class.class_variable_get('@@options')
+    options.delete(:staff_class)
+    options.delete(:staff_finder)
+    user = User.create!(:email => 'test@example.com', :password => 'password')
+    session[:staff_user_id] = user.id
+    staff_user = @controller.view_context.current_staff_user
+    assert_equal user, staff_user
+  end
+
+  # https://github.com/rcook/user_impersonate2/issues/3
+  # If config.staff_finder is nil, default of "find" should be used.
+  # Similarly, config.staff_class should default to "User".
+  test 'staff_finder nil' do
+    options = UserImpersonate::Engine.config.class.class_variable_get('@@options')
+    options[:staff_class] = nil
+    options[:staff_finder] = nil
+    user = User.create!(:email => 'test@example.com', :password => 'password')
+    session[:staff_user_id] = user.id
+    staff_user = @controller.view_context.current_staff_user
+    assert_equal user, staff_user
+  end
+
+  # https://github.com/rcook/user_impersonate2/issues/3
+  # If config.staff_finder is specified, the given method should be called.
+  test 'staff_finder other' do
+    options = UserImpersonate::Engine.config.class.class_variable_get('@@options')
+    options[:staff_finder] = :other
+    user = User.create!(:email => 'test@example.com', :password => 'password')
+    session[:staff_user_id] = user.id
+    assert_raises NoMethodError do
+      @controller.view_context.current_staff_user
+    end
+  end
+
+  # https://github.com/rcook/user_impersonate2/issues/3
+  # If config.staff_class is specified, the given model should be used.
+  test 'staff_class other' do
+    options = UserImpersonate::Engine.config.class.class_variable_get('@@options')
+    options[:staff_class] = 'SomeUser'
+    user = User.create!(:email => 'test@example.com', :password => 'password')
+    session[:staff_user_id] = user.id
+    assert_raises NameError do
+      @controller.view_context.current_staff_user
+    end
+  end
 end
 
