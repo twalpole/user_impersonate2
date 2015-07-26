@@ -62,6 +62,15 @@ class UserImpersonate::ImpersonateControllerTest < ActionController::TestCase
     assert_equal admin_user, assigns(:current_staff)
   end
 
+  # https://github.com/rcook/user_impersonate2/issues/6
+  # Test user_table when the Class.table_name has been set or overridden
+  # to manually specify the tablename. Specifically for cases of adding namespaces
+  # to existing models or inheriting from an existing model.
+  test 'user_table should return correct table_name' do
+    User.expects(:table_name).returns("test_users")
+    assert_equal 'test_users', @controller.send(:user_table)
+  end
+
   # https://github.com/rcook/user_impersonate2/issues/3
   # If config.staff_finder is not specified, default of "find" should be used.
   # Similarly, config.staff_class should default to "User".
