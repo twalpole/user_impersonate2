@@ -30,9 +30,7 @@ etc.)
 ## Example usage
 
 When you are impersonating a user you see what they see with a header section
-above:
-
-![](https://img.skitch.com/20120919-c8382rgdcub7gsh2p82k8reng3.png)
+above. By default, this will be red.
 
 ## Installation
 
@@ -124,10 +122,6 @@ rake db:migrate db:test:prepare
 
 You can override the bright red header by creating a `app/views/user_impersonate/_header.html.erb`
 file (or whatever template system you like).
-
-For example, the Engine Yard Cloud uses a header that looks like:
-
-![](https://img.skitch.com/20120915-mk8mnpdsu5nuym3bxs678qf1a8.png)
 
 The `app/views/user_impersonate/_header.html.haml` HAML partial for this header
 would be:
