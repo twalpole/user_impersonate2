@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.10.2 - Bug fix release
+
+* Issue #6: Using user_impersonate with Rails models that manually set the table_name fails
+
 ## 0.10.1 - Bug fix release
 
 * Issue #3: NoMethodError when calling config.staff_finder
