@@ -1,5 +1,9 @@
 # Change Log
 
+## 0.11.0 - Minor API addition
+
+* Pull request #9: Use current_staff instead of current_user for custom current_user methods
+
 ## 0.10.2 - Bug fix release
 
 * Issue #6: Using user_impersonate with Rails models that manually set the table_name fails
