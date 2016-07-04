@@ -5,6 +5,8 @@ module UserImpersonate
     before_filter :authenticate_the_user, except: ["destroy"]
     before_filter :current_user_must_be_staff!, except: ["destroy"]
 
+
+    helper_method :current_staff
     # Display list of all users, except current (staff) user
     # Is this exclusion unnecessary complexity?
     # Normal apps wouldn't bother with this action; rather they would
