@@ -3,6 +3,7 @@
 *.swp
 .ruby-version
 .bundle/
+.vagrant/
 coverage/
 log/*.log
 pkg/
