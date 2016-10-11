@@ -1,5 +1,10 @@
 #!/bin/bash
-SCRIPTPATH=$(readlink -f $0)
+if [[ "$OSTYPE" =~ ^darwin ]]; then
+  READLINK=greadlink
+else
+  READLINK=readlink
+fi
+SCRIPTPATH=$($READLINK -f $0)
 SCRIPTDIR=$(dirname $SCRIPTPATH)
 SCRIPTNAME=$(basename $SCRIPTPATH)
 APPDIR=$(dirname $SCRIPTDIR)
