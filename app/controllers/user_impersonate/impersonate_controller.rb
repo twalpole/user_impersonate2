@@ -78,8 +78,18 @@ module UserImpersonate
     # stored in +session[:staff_user_id]+
     def revert_impersonate
       return unless current_staff_user
+      sign_out_user current_user
       sign_in_user current_staff_user
       session[:staff_user_id] = nil
+    end
+    
+    def sign_out_user(user)
+      # Only need to sign out if the staff class is different to the
+      # user being impersonated
+      if user_class_name != staff_class_name
+        method = config_or_default :sign_out_user_method, "sign_out"
+        self.send(method.to_sym, user)
+      end
     end
 
     def sign_in_user(user)
@@ -130,6 +140,10 @@ module UserImpersonate
 
     def user_is_staff_method
       config_or_default :user_is_staff_method, "staff?"
+    end
+    
+    def staff_class_name
+      config_or_default :staff_class, "User"
     end
 
     def redirect_on_impersonate(impersonated_user)
