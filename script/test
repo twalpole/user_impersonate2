@@ -51,10 +51,10 @@ if [ $NOINSTALL -eq 0 ]; then
 fi
 
 # Reset database
-run_bundler exec rake db:reset
+RAILS_ENV=test run_bundler exec rake db:reset
 
 # Run Minitest and Cucumber tests passing any additional arguments
-run_bundler exec rake $@
+RAILS_ENV=test run_bundler exec rake $@
 
 # Build the gem
 run_bundler exec gem build user_impersonate2.gemspec
