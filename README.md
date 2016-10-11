@@ -8,7 +8,7 @@
 
 This is a fork of Engine Yard's no-longer-maintained [`user_impersonate`](https://github.com/engineyard/user_impersonate)
 gem and is its official successor. It supports Rails 3.2.x and Rails 4 and has
-been tested against Ruby 1.9.3, 2.0.0 and 2.1.0.
+been tested against Ruby 1.9.3, 2.0.0 and 2.1.0, 2.2, 2.3.1.
 
 ## Overview
 
