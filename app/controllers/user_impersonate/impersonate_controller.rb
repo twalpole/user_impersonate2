@@ -151,9 +151,9 @@ module UserImpersonate
       redirect_to url
     end
 
-    def redirect_on_revert(impersonated_user = nil)
+    def redirect_on_revert(impersonated_user = nil, redirect_params = params)
       url = config_or_default :redirect_on_revert, root_url
-      redirect_to url
+      redirect_to url, {}.merge(redirect_params)
     end
 
     # gets overridden config value for engine, else returns default
