@@ -18,6 +18,8 @@ module TestUtils
       '3'
     elsif rails_4?
       '4'
+    elsif rails_5?
+      '5'
     else
       raise "Unsupported Rails version #{TestUtils.rails_version}"
     end
@@ -43,7 +45,11 @@ module TestUtils
   end
 
   def rails_4?
-    rails_version_in_range?('4.0.0', '5.0.0')
+    rails_version_in_range?('4.0.0', '4.99.0')
+  end
+
+  def rails_5?
+    rails_version_in_range?('5.0.0.rc1', '5.1.0')
   end
 end
 
